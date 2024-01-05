@@ -65,7 +65,7 @@ int main() {
 	// Variables
 	Vector2 centre = {425, 425};
 	std::vector<Vector2> points;
-	float n = 2;
+	float n = 0.01f;
 
  	// Main game loop
  	while (!WindowShouldClose()) {
@@ -84,6 +84,8 @@ int main() {
 		DrawLine(points.at(0).x, points.at(0).y, points.at(points.size()-1).x, points.at(points.size()-1).y, WHITE);
 
    	EndDrawing();
+
+		n+=0.01;
  	}
 	
   // Clean up

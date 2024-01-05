@@ -60,7 +60,8 @@ int main() {
 	int width = 850;
 	int height = 850;
  	InitWindow(width, height, "SuperEllipse");
-   ClearBackground(BLACK);
+  ClearBackground(BLACK);
+	SetTargetFPS(2);
 
 	// Variables
 	Vector2 centre = {425, 425};

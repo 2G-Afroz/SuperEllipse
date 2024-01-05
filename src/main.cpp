@@ -18,49 +18,75 @@ int sgn(double d){
 	return (d > 0) ? 1 : (d < 0 ? -1 : 1);
 }
 
+/**
+ * @brief Generates a set of 2D points representing a superellipse.
+ *
+ * This function calculates points on a superellipse, a two-dimensional geometric
+ * shape defined by its center position (`pos`), semi-major axis (`a`), semi-minor
+ * axis (`b`), and an exponent parameter (`n`).
+ *
+ * @param pos The center position of the superellipse.
+ * @param a   The semi-major axis length.
+ * @param b   The semi-minor axis length.
+ * @param n   The exponent parameter, controlling the shape of the superellipse.
+ *
+ * @return A vector of Vector2 representing the points on the superellipse.
+ */
+std::vector<Vector2> getSuperEllipsePoints(Vector2 pos, float a, float b, float n){
+
+	std::vector<Vector2> points;
+
+	// Validate parameters
+    if (a < 0 || b < 0 || n <= 0) {
+        return points;
+    }
+
+	// Getting points of Super Ellipse
+	for(double ang = 0; ang < PI * 2; ang+=0.01){
+		float x = pow(abs(cos(ang)), 2/n) * a * sgn(cos(ang));
+		float y = pow(abs(sin(ang)), 2/n) * b * sgn(sin(ang));
+
+		x = x + pos.x;
+		y = y + pos.y;
+
+		points.push_back(Vector2{x, y});
+	}
+
+	return points;
+}
+
 int main() {
-    	// Initialize raylib
-    	InitWindow(850, 850, "My Raylib Project");
-      ClearBackground(BLACK);
+ 	// Initialize raylib
+	int width = 850;
+	int height = 850;
+ 	InitWindow(width, height, "SuperEllipse");
+   ClearBackground(BLACK);
+
+	// Variables
+	Vector2 centre = {425, 425};
+	std::vector<Vector2> points;
+	float n = 2;
+
+ 	// Main game loop
+ 	while (!WindowShouldClose()) {
+   	// Draw
+   	BeginDrawing();
+   	DrawText("Hello, 2G-Afroz!", 10, 10, 20, WHITE);
+
+		// Gettin SuperEllipse points
+		points = getSuperEllipsePoints(centre, 200.0f, 200.0f, n);
+
+		// Drawing SuperEllipse
+		for (size_t i = 0; i < points.size()-1; i++) {
+			DrawLine(points.at(i).x, points.at(i).y, points.at(i+1).x, points.at(i+1).y, WHITE);
+		}
+		// For the last line
+		DrawLine(points.at(0).x, points.at(0).y, points.at(points.size()-1).x, points.at(points.size()-1).y, WHITE);
+
+   	EndDrawing();
+ 	}
 	
-			// Variables
-			Vector2 centre = {425, 425};
-			std::vector<Vector2> points;
-
-			float n = 1.5f;
-			float a = 200.0f;
-			float b = 200.0f;
-
-			// Getting points of circle
-			for(double ang = 0; ang < PI * 2; ang+=0.01){
-				// float x = r*sin(a);
-				// float y = r*cos(a);
-
-				float x = pow(abs(cos(ang)), 2/n) * a * sgn(cos(ang));
-				float y = pow(abs(sin(ang)), 2/n) * b * sgn(sin(ang));
-
-				x = x + centre.x;
-				y = y + centre.y;
-
-				points.push_back(Vector2{x, y});
-			}
-
-    	// Main game loop
-    	while (!WindowShouldClose()) {
-        	// Draw
-        	BeginDrawing();
-        	DrawText("Hello, 2G-Afroz!", 10, 10, 20, WHITE);
-
-					for (size_t i = 0; i < points.size()-1; i++) {
-						DrawLine(points.at(i).x, points.at(i).y, points.at(i+1).x, points.at(i+1).y, WHITE);
-					}
-					// For the last line
-					DrawLine(points.at(0).x, points.at(0).y, points.at(points.size()-1).x, points.at(points.size()-1).y, WHITE);
-
-        	EndDrawing();
-    	}
-	
-    	// Clean up
+  // Clean up
 	CloseWindow();
 	return 0;
 }

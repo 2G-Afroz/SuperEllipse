@@ -61,21 +61,24 @@ int main() {
 	int height = 850;
  	InitWindow(width, height, "SuperEllipse");
   ClearBackground(BLACK);
-	SetTargetFPS(2);
+	SetTargetFPS(20);
 
 	// Variables
 	Vector2 centre = {425, 425};
 	std::vector<Vector2> points;
-	float n = 0.01f;
+	float n = 2.0f;
+	float a = 200.0f;
+	float b = 200.0f;
 
  	// Main game loop
  	while (!WindowShouldClose()) {
+		ClearBackground(BLACK);
    	// Draw
    	BeginDrawing();
    	DrawText("Hello, 2G-Afroz!", 10, 10, 20, WHITE);
 
 		// Gettin SuperEllipse points
-		points = getSuperEllipsePoints(centre, 200.0f, 200.0f, n);
+		points = getSuperEllipsePoints(centre, a, b, n);
 
 		// Drawing SuperEllipse
 		for (size_t i = 0; i < points.size()-1; i++) {
@@ -84,9 +87,10 @@ int main() {
 		// For the last line
 		DrawLine(points.at(0).x, points.at(0).y, points.at(points.size()-1).x, points.at(points.size()-1).y, WHITE);
 
-   	EndDrawing();
+		// Drawing values
+		DrawText(TextFormat("a: %0.2f\nb: %0.2f\nn: %0.2f", a, b, n), 10, 40, 15, WHITE);
 
-		n+=0.01;
+   	EndDrawing();
  	}
 	
   // Clean up

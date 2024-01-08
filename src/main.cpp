@@ -1,4 +1,6 @@
 // main.cpp
+#define RAYGUI_IMPLEMENTATION
+#include <raygui.h>
 #include <raylib.h>
 #include <vector>
 #include <cmath>
@@ -75,7 +77,6 @@ int main() {
 		ClearBackground(BLACK);
    	// Draw
    	BeginDrawing();
-   	DrawText("Hello, 2G-Afroz!", 10, 10, 20, WHITE);
 
 		// Gettin SuperEllipse points
 		points = getSuperEllipsePoints(centre, a, b, n);
@@ -87,8 +88,10 @@ int main() {
 		// For the last line
 		DrawLine(points.at(0).x, points.at(0).y, points.at(points.size()-1).x, points.at(points.size()-1).y, WHITE);
 
-		// Drawing values
-		DrawText(TextFormat("a: %0.2f\nb: %0.2f\nn: %0.2f", a, b, n), 10, 40, 15, WHITE);
+		// Drawing GUI Controls
+		GuiSlider({20, 5, 800, 10}, "n: ", TextFormat("%0.2f", n), &n, 0.00001f, 10);	// Exponent
+		GuiSlider({20, 20, 800, 10}, "a: ", TextFormat("%0.2f", a), &a, 0, 400);	// Height
+		GuiSlider({20, 35, 800, 10}, "b: ", TextFormat("%0.2f", b), &b, 0, 400);	// Width
 
    	EndDrawing();
  	}
